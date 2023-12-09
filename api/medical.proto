@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package medical;
+
+option go_package = "/medical";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+service MedicalService {
+  rpc CreateHospital(CreateHospitalRequest) returns (Hospital) {};
+
+  rpc CreatePatient(CreatePatientRequest) returns (Patient) {};
+
+  rpc RegisterPatient(RegisterPatientRequest) returns (google.protobuf.Empty) {};
+
+  rpc DischargePatient(DiscardPatientRequest) returns (google.protobuf.Empty) {};
+
+  rpc GetStatOfPatients(GetStatOfPatientsRequest) returns (PatientsStats) {};
+}
+
+message CreateHospitalRequest {
+  string name = 1;
+}
+
+message Hospital {
+  string hospital_id = 1;
+  string name = 2;
+}
+
+message CreatePatientRequest {
+  string name = 1;
+  int32 age = 2;
+}
+
+message Patient {
+  string patient_id = 1;
+  string name = 2;
+  int32 age = 3;
+}
+
+message RegisterPatientRequest {
+  string patient_id = 1;
+  string hospital_id = 2;
+  google.protobuf.Timestamp register_time = 3;
+}
+
+message DiscardPatientRequest {
+  string patient_id = 1;
+  string hospital_id = 2;
+  google.protobuf.Timestamp discard_time = 3;
+}
+
+message GetStatOfPatientsRequest {
+  google.protobuf.Timestamp from = 1;
+  google.protobuf.Timestamp to = 2;
+}
+
+message PatientsStat {
+  string hospital_id = 1;
+  string name = 2;
+  int32 number_of_patients = 3;
+  float average_age = 4;
+  int32 number_of_register = 5;
+  int32 number_of_discard = 6;
+}
+
+message PatientsStats {
+  repeated PatientsStat patientStat = 1;
+}
+
+
+
